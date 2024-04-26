@@ -38,16 +38,4 @@
       return unsubscribe;
     };
   };
-
-  // umd
-  if (typeof exports === "object") {
-    // CommonJS
-    module.exports = subscribe;
-  } else if (typeof define === "function" && define.amd) {
-    // AMD. anonymous module
-    define(subscribe);
-  } else {
-    // Global scope
-    global.subscribeEvent = subscribe;
-  }
 })();
