@@ -5,7 +5,7 @@
   function subscribe(element, event, handler, options) {
     var unsubscribeFunctionName = "removeEventListener";
     var unsubscribe = function() {
-      element[unsubscribeFunctionName](event, handler);
+      element[unsubscribeFunctionName](event, handler, options);
     };
 
     if (element.addEventListener) {
@@ -31,7 +31,7 @@
   subscribe.define = function(addSubscription, removeSubscription) {
     return function(element, event, handler, options) {
       var unsubscribe = function() {
-        element[removeSubscription](event, handler);
+        element[removeSubscription](event, handler, options);
       };
 
       element[addSubscription](event, handler, options);
