@@ -1,12 +1,13 @@
-var subscribe = require('../subscribe');
-var assert = require('assert');
+var subscribe = require("../dist/cjs.js");
+var assert = require("assert");
 
-var dummyEventName = 'test';
+var dummyEventName = "test";
 var dummyFunction = function(){};
 var dummyOptions = { capture: true };
 
-describe('subscribe', function() {
-    it('call addEventListener if defined', function(done) {
+
+describe("subscribe", function() {
+    it("call addEventListener if defined", function(done) {
         var dummyObj = {
             addEventListener: function (event, handler) {
                 assert(event === dummyEventName);
@@ -17,10 +18,10 @@ describe('subscribe', function() {
         subscribe(dummyObj, dummyEventName, done);
     });
 
-    it('call attachEvent if defined', function(done) {
+    it("call attachEvent if defined", function(done) {
         var dummyObj = {
             attachEvent: function (event, handler) {
-                assert(event === 'on' + dummyEventName);
+                assert(event === "on" + dummyEventName);
                 handler();
             }
         };
@@ -28,7 +29,7 @@ describe('subscribe', function() {
         subscribe(dummyObj, dummyEventName, done);
     });
 
-    it('call on if defined', function(done) {
+    it("call on if defined", function(done) {
         var dummyObj = {
             on: function (event, handler) {
                 assert(event === dummyEventName);
@@ -39,7 +40,7 @@ describe('subscribe', function() {
         subscribe(dummyObj, dummyEventName, done);
     });
 
-    it('call removeEventListener when unsubscribe was called', function() {
+    it("call removeEventListener when unsubscribe was called", function() {
         var dummyObj = {
             addEventListener: function (event, handler, options) {
                 this.handler = handler;
@@ -56,14 +57,14 @@ describe('subscribe', function() {
         subscribe(dummyObj, dummyEventName, dummyFunction, dummyOptions)();
     });
 
-    it('call detachEvent when unsubscribe was called', function() {
+    it("call detachEvent when unsubscribe was called", function() {
         var dummyObj = {
             attachEvent: function (event, handler) {
                 this.handler = handler;
-                assert(event === 'on' + dummyEventName);
+                assert(event === "on" + dummyEventName);
             },
             detachEvent: function(event, handler) {
-                assert(event === 'on' + dummyEventName);
+                assert(event === "on" + dummyEventName);
                 assert(this.handler, handler);
             }
         };
@@ -71,7 +72,7 @@ describe('subscribe', function() {
         subscribe(dummyObj, dummyEventName, dummyFunction)();
     });
 
-    it('call on if defined', function() {
+    it("call on if defined", function() {
         var dummyObj = {
             on: function (event, handler) {
                 this.handler = handler;
@@ -85,11 +86,10 @@ describe('subscribe', function() {
 
         subscribe(dummyObj, dummyEventName, dummyFunction)();
     });
-
 });
 
-describe('subscribe.define', function() {
-    it('define subscribe function', function(done) {
+describe("subscribe.define", function() {
+    it("define subscribe function", function(done) {
         var dummyObj = {
             testSubscribe: function(event, handler) {
                 assert(event === dummyEventName);
@@ -97,11 +97,11 @@ describe('subscribe.define', function() {
             }
         };
 
-        var customSubscribe = subscribe.define('testSubscribe');
+        var customSubscribe = subscribe.define("testSubscribe");
         customSubscribe(dummyObj, dummyEventName, done);
     });
 
-    it('define unsubscribe function', function() {
+    it("define unsubscribe function", function() {
         var dummyObj = {
             testSubscribe: function(event, handler, options) {
                 assert(event === dummyEventName);
@@ -116,7 +116,7 @@ describe('subscribe.define', function() {
             }
         };
 
-        var customSubscribe = subscribe.define('testSubscribe', 'testUnsubscribe');
+        var customSubscribe = subscribe.define("testSubscribe", "testUnsubscribe");
         customSubscribe(dummyObj, dummyEventName, dummyFunction, dummyOptions)();
     });
 });
